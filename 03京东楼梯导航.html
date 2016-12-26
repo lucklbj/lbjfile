@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		.header,.footer{
+			height: 360px;
+			border: 1px solid pink;
+			background: sienna;
+		}
+		.footer{
+			background: seagreen;
+		}
+		
+		.floor{
+			height: 500px;
+			border: 2px solid #ccc;
+			font: 36px/500px "微软雅黑";
+			text-align: center;
+		}
+		
+		.btn{
+			position: fixed;
+			right: 0;
+			top: 50%;
+			margin-top: -155px;
+		}
+		.btn li{
+			width: 30px;
+			font: 14px/30px "微软雅黑";
+			text-align: center;
+			border: 1px solid #ccc;
+			background: #eee;
+			cursor: pointer;
+			margin-top: -1px;
+			
+		}
+		
+		.btn .on{
+			background: sandybrown;
+			color: #fff;
+		}
+	</style>
+	<body>
+		<div class="header"></div>
+		<div class="container">
+			<div class="floor">第1楼</div>
+			<div class="floor">第2楼</div>
+			<div class="floor">第3楼</div>
+			<div class="floor">第4楼</div>
+			<div class="floor">第5楼</div>
+			<div class="floor">第6楼</div>
+			<div class="floor">第7楼</div>
+			<div class="floor">第8楼</div>
+			<div class="floor">第9楼</div>
+			<div class="floor">第10楼</div>
+		</div>
+		<ul class="btn">
+			<li>1</li>
+			<li>2</li>
+			<li>3</li>
+			<li>4</li>
+			<li>5</li>
+			<li>6</li>
+			<li>7</li>
+			<li>8</li>
+			<li>9</li>
+			<li>10</li>
+		</ul>
+		<div class="footer"></div>
+	</body>
+	<script src="js/jquery-1.7.2.min.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		//1.获取所有楼层  得到的是jq对象
+		var floors = $('.floor');
+		
+		//向对象添加反序方法
+		//floors.reverse = Array.prototype.reverse;
+		
+		//执行反序
+		//floors.reverse();
+		
+		//测试
+		//floors.eq(0).css({background:'red'})
+		
+		
+		var btns = $('.btn li');
+		
+		//2.将jq对象转换成数组  便于倒序
+		
+		var fArr = floors.toArray();
+		
+		//3.将数组倒序
+		
+		fArr.reverse();
+		
+		//4.再通过$选择器 转换成jq对象
+		
+		floors = $(fArr);
+		
+		
+		console.log(fArr);
+		
+		$(window).scroll(function(){
+			
+			var sTop = $(this).scrollTop();
+			
+			floors.each(function(){
+				
+				var curTop = $(this).offset().top;
+				//如果滚动条位置大于等于当前元素位置  后面不再执行
+				if(sTop>=curTop){
+					
+					//$(this).css({borderColor:'red'});
+					
+					var index = $(this).index();
+					
+					btns.eq(index).addClass('on').siblings().removeClass('on');
+					
+					
+					//console.log($(this).siblings().css({borderColor:'#ccc'}))
+					return false;
+					
+				}
+				
+			});
+			
+			
+			
+			
+		});
+		
+		var floors1 = $('.floor');
+		
+		
+		btns.click(function(){
+			
+			var index = $(this).index();
+			
+			var tops = 	floors1.eq(index).offset().top;
+			
+			$('body,html').animate({scrollTop:tops});
+			
+			console.log(tops);
+		});
+		
+	</script>
+</html>
